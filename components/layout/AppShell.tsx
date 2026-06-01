@@ -3,42 +3,33 @@
 import { LeftPanel } from "./LeftPanel";
 import { ChatPanel } from "@/components/chat/ChatPanel";
 import { GlobalView } from "@/components/project/GlobalView";
-import { TaskBoard } from "@/components/board/TaskBoard";
 import { TaskPreview } from "@/components/task/TaskPreview";
 import { useAgentOS } from "@/lib/store";
 
-const columnWidths: Record<1 | 2 | 3, string> = {
-  1: "grid-cols-[220px_1fr_320px]",
-  2: "grid-cols-[220px_1fr_300px]",
-  3: "grid-cols-[200px_1fr_340px]",
-};
-
 export function AppShell() {
-  const focus = useAgentOS((s) => s.focus);
   const currentTaskId = useAgentOS((s) => s.currentTaskId);
-  const tasks = useAgentOS((s) => s.tasks);
   const currentProjectId = useAgentOS((s) => s.currentProjectId);
+  const tasks = useAgentOS((s) => s.tasks);
 
   const currentTask = tasks.find((t) => t.id === currentTaskId) ?? null;
-
   const chatMode =
-    focus === 1 ? "global" : focus === 2 ? "project" : "group";
+    currentTask && currentTask.groupId ? "group" : currentProjectId ? "project" : "global";
 
   return (
-    <div
-      className={`grid h-screen max-h-screen overflow-hidden bg-zinc-950 ${columnWidths[focus]}`}
-    >
+    <div className="grid h-screen max-h-screen grid-cols-[240px_1fr_360px] overflow-hidden bg-zinc-950">
       <LeftPanel />
 
-      <main className="min-w-0 overflow-hidden border-r border-zinc-800">
-        {focus === 1 && <GlobalView />}
-        {focus === 2 && currentProjectId && <TaskBoard />}
-        {focus === 2 && !currentProjectId && <GlobalView />}
-        {focus === 3 && <TaskPreview task={currentTask} />}
+      <main className="min-w-0 overflow-hidden border-r border-zinc-800 bg-zinc-950">
+        <GlobalView />
       </main>
 
-      <section className="min-w-0 overflow-hidden bg-zinc-950">
-        <ChatPanel mode={chatMode} />
+      <section className="flex min-w-0 flex-col overflow-hidden border-l border-zinc-800 bg-zinc-950">
+        <div className="max-h-[45%] min-h-0 shrink-0 overflow-hidden border-b border-zinc-800">
+          <TaskPreview task={currentTask} compact />
+        </div>
+        <div className="min-h-0 flex-1 overflow-hidden">
+          <ChatPanel mode={chatMode} />
+        </div>
       </section>
     </div>
   );
