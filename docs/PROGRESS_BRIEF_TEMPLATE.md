@@ -1,6 +1,6 @@
 # AgentOS 进度简报模板
 
-复制给 Claude 时，可让 Cursor Agent 按此格式在每次 push / feature 后自动生成。
+复制给 Claude：**把 Cursor 回复里的整段「代码简报」（含下方文件全文）原样粘贴**，无需再去 GitHub 翻文件。
 
 ---
 

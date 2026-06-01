@@ -39,7 +39,9 @@ If Vercel is not connected yet, say so once and point to `DEPLOY.md` — do not 
 
 ## After every successful push — 代码简报 (for Claude)
 
-The user shares these briefs with Claude to sync project progress. **Always** append a section titled **`## 代码简报`** (or `## Code brief`) after push or feature completion, even if there was no push (summarize local changes).
+The user copies your chat reply **directly into Claude** — they do **not** want to open GitHub to collect code. **Always** append **`## 代码简报`** after push or feature completion.
+
+**Critical:** Put the **actual full source code** in the chat message. GitHub links are supplementary only, never a substitute for pasting files.
 
 Use this structure (keep concise, factual, copy-paste friendly):
 
@@ -62,8 +64,10 @@ Use this structure (keep concise, factual, copy-paste friendly):
 - `path/to/file` — <why>
 - ...
 
-### 改动文件全文
-**Required:** In each progress brief, include the **full content** of every **newly created** or **significantly modified** file from this round.
+### 改动文件全文（直接给用户的代码）
+**Required:** Paste the **complete, copy-paste-ready source** of every **newly created** or **significantly modified** file in this chat turn. The user will forward this section to Claude as-is.
+
+Do **not** say “见 GitHub” instead of pasting code. Do **not** only list filenames.
 
 Format for each file:
 
