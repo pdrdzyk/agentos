@@ -37,6 +37,44 @@ Always include in your message:
 
 If Vercel is not connected yet, say so once and point to `DEPLOY.md` — do not make the user guess.
 
+## After every successful push — 代码简报 (for Claude)
+
+The user shares these briefs with Claude to sync project progress. **Always** append a section titled **`## 代码简报`** (or `## Code brief`) after push or feature completion, even if there was no push (summarize local changes).
+
+Use this structure (keep concise, factual, copy-paste friendly):
+
+```markdown
+## 代码简报
+
+**日期**: YYYY-MM-DD
+**仓库**: https://github.com/pdrdzyk/agentos
+**提交**: <short sha> — <commit title>
+**链接**: <commit URL>
+
+### 本轮目标
+<1–2 sentences: what the user asked for>
+
+### 已完成
+- <bullet: user-visible outcome>
+- <bullet: technical change>
+
+### 主要改动文件
+- `path/to/file` — <why>
+- ...
+
+### 未接 / 刻意未做
+- <e.g. 未接 Anthropic、群聊仍为 mock>
+
+### 如何查看
+- 本地: `npm run dev` → http://localhost:3000
+- 线上: <Vercel production or preview URL, or “待连 Vercel”>
+
+### 建议 Claude 下一步
+<1–3 bullets aligned with user direction, e.g. 继续装修 UI 而非接 AI>
+```
+
+Write in **中文** unless the user used English for that turn. No secrets in the brief.
+
 ## Branching (recommended for features)
 
 - Default: push to `main` for small MVP steps.
