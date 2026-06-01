@@ -28,10 +28,12 @@ export function LeftPanel() {
   }, [projects, currentProjectId, selectProject]);
 
   return (
-    <aside className="flex h-full w-[240px] flex-col border-r border-zinc-800 bg-zinc-950">
-      <div className="border-b border-zinc-800 px-4 py-4">
-        <p className="text-sm font-bold tracking-wide text-blue-400">AgentOS</p>
-        <p className="mt-0.5 text-[10px] text-zinc-500">导航 · 全部展开</p>
+    <aside className="flex h-full w-[240px] flex-col border-r border-zinc-800/80 bg-zinc-950/80 backdrop-blur-sm">
+      <div className="border-b border-zinc-800/80 px-4 py-3">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+          工作区导航
+        </p>
+        <p className="mt-0.5 text-xs text-zinc-400">项目 · 任务组 · 任务</p>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-2 py-3">

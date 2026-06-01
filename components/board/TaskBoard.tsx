@@ -25,12 +25,12 @@ export function TaskBoard() {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <header className="shrink-0 border-b border-zinc-800 px-6 py-4">
-        <h1 className="text-lg font-semibold text-zinc-50">
+      <header className="shrink-0 border-b border-zinc-800/80 px-6 py-5">
+        <h1 className="text-xl font-bold tracking-tight text-zinc-50">
           {project?.name ?? "工作区"}
         </h1>
         <p className="mt-1 text-sm text-zinc-500">
-          待处理置顶 · 点击下方状态标签即可切换
+          待你处理的事项在上方 · 点击状态标签即可更新
         </p>
       </header>
 

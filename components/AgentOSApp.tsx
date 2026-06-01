@@ -1,22 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AppShell } from "./layout/AppShell";
+import { SplashScreen } from "./splash/SplashScreen";
 
 export function AgentOSApp() {
   const [hydrated, setHydrated] = useState(false);
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
   }, []);
 
+  const handleSplashComplete = useCallback(() => {
+    setSplashDone(true);
+  }, []);
+
   if (!hydrated) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        加载 AgentOS…
-      </div>
-    );
+    return <div className="h-screen bg-zinc-950" />;
   }
 
-  return <AppShell />;
+  return (
+    <>
+      {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
+      {splashDone && (
+        <div className="animate-app-enter h-screen">
+          <AppShell />
+        </div>
+      )}
+    </>
+  );
 }
