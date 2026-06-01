@@ -1,0 +1,49 @@
+---
+description: Auto commit/push after features; user views UI on Vercel
+alwaysApply: true
+---
+
+# Auto push & preview (AgentOS)
+
+The user does **not** want a manual git workflow. Deploy pipeline: **git push → GitHub → Vercel** (Next.js).
+
+## When to commit and push
+
+Do all of the following unless the user says **not** to push:
+
+1. User says **push**, **发布**, **部署**, or similar.
+2. You finished a **feature** or meaningful UI change (not tiny typos unless they asked).
+3. End of a task where the user should **see the result in the browser**.
+
+Do **not** wait for the user to run `git add` / `git commit` / `git push` themselves.
+
+## Push workflow (agent runs this)
+
+1. `git status` — if nothing to commit, say so and still confirm remote is up to date.
+2. Run `npm run build` when the change touches app code; fix failures before pushing.
+3. Stage only project files — never `.env`, `.env.local`, credentials, or secrets.
+4. Commit with a clear message (feat/fix/chore + what changed).
+5. `git push` (or `git push -u origin <branch>` for a new branch).
+6. If push fails (auth, network), report the exact error and what the user must run once (usually `gh auth login`).
+
+## After every successful push — reply with links
+
+Always include in your message:
+
+- **GitHub**: commit or branch URL (`https://github.com/pdrdzyk/agentos/...`)
+- **View UI**: tell them to open the Vercel deployment
+  - `main` → production: `https://agentos.vercel.app` or the project’s Production URL from Vercel dashboard
+  - feature branch → Preview URL from the latest Vercel deploy (or GitHub PR Checks if a PR exists)
+
+If Vercel is not connected yet, say so once and point to `DEPLOY.md` — do not make the user guess.
+
+## Branching (recommended for features)
+
+- Default: push to `main` for small MVP steps.
+- For larger features: `feature/<short-name>`, push branch, mention Preview URL; merge to `main` when user confirms.
+
+## Constraints
+
+- Never force-push `main`, never skip hooks unless the user asks.
+- Never commit API keys or `.env.local`.
+- User saying **only push** means push only — do not add unrelated changes.
