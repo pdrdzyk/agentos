@@ -39,9 +39,9 @@ If Vercel is not connected yet, say so once and point to `DEPLOY.md` — do not 
 
 ## After every successful push — 代码简报 (for Claude)
 
-The user copies your chat reply **directly into Claude** — they do **not** want to open GitHub to collect code. **Always** append **`## 代码简报`** after push or feature completion.
+The user's Claude Project is **connected to GitHub** (`pdrdzyk/agentos`) and can pull code via **Sync**. **Always** append a short **`## 代码简报`** after push or feature completion.
 
-**Critical:** Put the **actual full source code** in the chat message. GitHub links are supplementary only, never a substitute for pasting files.
+**Do not** paste full file contents unless the user explicitly asks. Point Claude to the commit URL and list changed paths with one-line summaries.
 
 Use this structure (keep concise, factual, copy-paste friendly):
 
@@ -64,28 +64,10 @@ Use this structure (keep concise, factual, copy-paste friendly):
 - `path/to/file` — <why>
 - ...
 
-### 改动文件全文（直接给用户的代码）
-**Required:** Paste the **complete, copy-paste-ready source** of every **newly created** or **significantly modified** file in this chat turn. The user will forward this section to Claude as-is.
-
-Do **not** say “见 GitHub” instead of pasting code. Do **not** only list filenames.
-
-Format for each file:
-
-````
-#### `path/to/file`
-<optional one-line: why changed>
-
-```<language>
-<entire file contents>
-```
-````
-
-Rules:
-- **New file** → always include full content.
-- **Significantly modified** → include full content of the file as it exists after the change (not a diff-only summary).
-- **Trivial edits** (typo, single comment) → list in「主要改动文件」only; omit from「改动文件全文」.
-- **Never** paste secrets (`.env`, `.env.local`, keys, tokens) or huge generated artifacts (`package-lock.json`, `.next/**`) unless the user explicitly asks.
-- If a file is unreasonably large for one message, include full content up to the practical limit, then note「其余见 commit」and link the commit.
+### Claude 同步
+- 在 Claude Project 中点击 **Sync now**（或已配置自动同步时使用最新 `main`）
+- 查看提交: <commit URL>
+- 可选: `git show <sha> --stat` 级别的变更摘要（不必贴 diff 全文）
 
 ### 未接 / 刻意未做
 - <e.g. 未接 Anthropic、群聊仍为 mock>
