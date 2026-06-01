@@ -62,6 +62,27 @@ Use this structure (keep concise, factual, copy-paste friendly):
 - `path/to/file` — <why>
 - ...
 
+### 改动文件全文
+**Required:** In each progress brief, include the **full content** of every **newly created** or **significantly modified** file from this round.
+
+Format for each file:
+
+````
+#### `path/to/file`
+<optional one-line: why changed>
+
+```<language>
+<entire file contents>
+```
+````
+
+Rules:
+- **New file** → always include full content.
+- **Significantly modified** → include full content of the file as it exists after the change (not a diff-only summary).
+- **Trivial edits** (typo, single comment) → list in「主要改动文件」only; omit from「改动文件全文」.
+- **Never** paste secrets (`.env`, `.env.local`, keys, tokens) or huge generated artifacts (`package-lock.json`, `.next/**`) unless the user explicitly asks.
+- If a file is unreasonably large for one message, include full content up to the practical limit, then note「其余见 commit」and link the commit.
+
 ### 未接 / 刻意未做
 - <e.g. 未接 Anthropic、群聊仍为 mock>
 
