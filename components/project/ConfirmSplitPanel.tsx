@@ -10,64 +10,49 @@ export function ConfirmSplitPanel() {
   if (!proposal) return null;
 
   return (
-    <div className="space-y-5 p-5">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-blue-400">
-          确认拆分方案
-        </p>
-        <h2 className="mt-1 text-xl font-bold text-zinc-50">
-          {proposal.projectName}
-        </h2>
-        <p className="mt-2 text-sm text-zinc-400">
-          总管 AI 建议 {proposal.groups.length} 个任务组，确认后进入工作区看板。
-        </p>
-      </div>
-      <ul className="max-h-[50vh] space-y-3 overflow-y-auto pr-1">
+    <div className="mx-auto flex h-full max-w-lg flex-col justify-center px-8 py-10">
+      <h1 className="text-[28px] font-bold text-[#f5f5f7]">{proposal.projectName}</h1>
+      <p className="mt-2 text-[15px] text-[#8e8e93]">
+        {proposal.groups.length} 个任务组，确认后开始。
+      </p>
+
+      <div className="mt-8 space-y-6">
         {proposal.groups.map((g) => (
-          <li
-            key={g.name}
-            className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4"
-          >
-            <h3 className="font-semibold text-zinc-100">{g.name}</h3>
-            <p className="mt-1 text-xs text-zinc-500">{g.leadAgentRole}</p>
-            <p className="mt-2 rounded-md bg-zinc-900/80 px-2 py-1.5 text-xs text-zinc-400">
-              <span className="font-medium text-zinc-500">完成标准 · </span>
-              {g.definitionOfDone}
-            </p>
-            <ul className="mt-3 space-y-1.5 border-t border-zinc-800 pt-3">
-              {g.tasks.map((t) => (
-                <li
+          <div key={g.name}>
+            <h2 className="mb-2 px-1 text-[13px] font-medium text-[#8e8e93]">
+              {g.name}
+            </h2>
+            <div className="ios-group">
+              {g.tasks.map((t, i) => (
+                <div
                   key={t.name}
-                  className="flex items-center justify-between text-xs"
+                  className={`flex items-center justify-between px-4 py-3.5 ${
+                    i < g.tasks.length - 1 ? "border-b ios-separator" : ""
+                  }`}
                 >
-                  <span className="text-zinc-300">{t.name}</span>
-                  <span
-                    className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${
-                      t.assignee === "human"
-                        ? "bg-orange-500/20 text-orange-300"
-                        : "bg-blue-500/20 text-blue-300"
-                    }`}
-                  >
-                    {t.assignee === "human" ? "你" : "agent"}
+                  <span className="text-[15px] text-[#f5f5f7]">{t.name}</span>
+                  <span className="text-[13px] text-[#8e8e93]">
+                    {t.assignee === "human" ? "你" : "Agent"}
                   </span>
-                </li>
+                </div>
               ))}
-            </ul>
-          </li>
+            </div>
+          </div>
         ))}
-      </ul>
-      <div className="flex gap-3 pt-2">
+      </div>
+
+      <div className="mt-8 space-y-3">
         <button
           type="button"
           onClick={confirmSplit}
-          className="flex-1 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/20 hover:from-emerald-500 hover:to-emerald-400"
+          className="w-full rounded-[12px] bg-[#0a84ff] py-3.5 text-[17px] font-medium text-white active:opacity-80"
         >
-          确认并进入工作区
+          确认
         </button>
         <button
           type="button"
           onClick={rejectSplit}
-          className="rounded-xl border border-zinc-700 px-5 py-3 text-sm text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+          className="w-full py-3 text-[17px] text-[#0a84ff] active:opacity-60"
         >
           重新输入
         </button>

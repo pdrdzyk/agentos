@@ -10,37 +10,32 @@ export function CreateProjectForm() {
 
   return (
     <form
-      className="space-y-4"
+      className="ios-group p-1"
       onSubmit={async (e) => {
         e.preventDefault();
         if (!goal.trim()) return;
         await startProject(goal.trim());
       }}
     >
-      <label className="block text-sm font-medium text-zinc-300">
-        项目目标
+      <label className="block px-4 pt-4">
+        <span className="text-[13px] text-[#8e8e93]">项目目标</span>
         <textarea
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
-          rows={5}
-          placeholder="例如：构建一个一人公司用的 Agent 任务操作系统，支持任务拆分、看板与 A/B 决策…"
-          className="mt-2 w-full resize-none rounded-xl border border-zinc-700/80 bg-zinc-950/80 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          rows={4}
+          placeholder="你想完成什么？"
+          className="mt-2 w-full resize-none bg-transparent text-[17px] text-[#f5f5f7] placeholder:text-[#636366] focus:outline-none"
         />
       </label>
-      <button
-        type="submit"
-        disabled={isSplitting || !goal.trim()}
-        className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:from-blue-500 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {isSplitting ? (
-          <span className="flex items-center justify-center gap-2">
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-            总管 AI 拆分中…
-          </span>
-        ) : (
-          "交给总管 AI 拆分 →"
-        )}
-      </button>
+      <div className="border-t border-white/[0.08] p-3">
+        <button
+          type="submit"
+          disabled={isSplitting || !goal.trim()}
+          className="w-full rounded-[10px] bg-[#0a84ff] py-3.5 text-[17px] font-medium text-white transition active:opacity-80 disabled:opacity-40"
+        >
+          {isSplitting ? "正在拆分…" : "继续"}
+        </button>
+      </div>
     </form>
   );
 }

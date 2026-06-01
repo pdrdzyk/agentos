@@ -23,7 +23,7 @@ export function ChatPanel({ mode }: { mode: "global" | "project" | "group" }) {
 
   const filtered = useMemo(() => {
     if (mode === "global") {
-      return messages.filter((m) => m.sender === "orchestrator").slice(-20);
+      return messages.filter((m) => m.sender === "orchestrator").slice(-15);
     }
     if (mode === "project" && currentProjectId) {
       const groupIds = new Set(
@@ -49,21 +49,14 @@ export function ChatPanel({ mode }: { mode: "global" | "project" | "group" }) {
     );
   }, [decisions, activeGroupId, tasks]);
 
-  const groupName = taskGroups.find((g) => g.id === activeGroupId)?.name;
-
   return (
-    <div className="flex h-full flex-col bg-zinc-950">
-      <header className="shrink-0 border-b border-zinc-800 px-4 py-3">
-        <h2 className="text-sm font-semibold text-zinc-100">消息流</h2>
-        <p className="text-xs text-zinc-500">
-          {groupName ? `任务组 · ${groupName}` : "总管 AI · 模拟"}
-        </p>
-      </header>
-      <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-4">
+    <div className="flex h-full flex-col">
+      <div className="shrink-0 px-5 py-3">
+        <h2 className="text-[13px] font-medium text-[#8e8e93]">消息</h2>
+      </div>
+      <div className="flex flex-1 flex-col gap-2 overflow-y-auto px-4 pb-4">
         {filtered.length === 0 && pendingDecisions.length === 0 ? (
-          <p className="text-center text-xs text-zinc-600">
-            选中任务后显示群聊
-          </p>
+          <p className="py-8 text-center text-[15px] text-[#636366]">暂无消息</p>
         ) : (
           filtered.map((m) => <ChatMessage key={m.id} message={m} />)
         )}

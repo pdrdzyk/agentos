@@ -18,76 +18,64 @@ export function TaskBoard() {
 
   const project = projects.find((p) => p.id === currentProjectId);
   const groups = taskGroups.filter((g) => g.projectId === currentProjectId);
-  const projectTasks = tasks.filter((t) =>
-    groups.some((g) => g.id === t.groupId),
-  );
+  const groupIds = new Set(groups.map((g) => g.id));
+  const projectTasks = tasks.filter((t) => groupIds.has(t.groupId));
   const interventionTasks = projectTasks.filter(isInterventionTask);
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <header className="shrink-0 border-b border-zinc-800/80 px-6 py-5">
-        <h1 className="text-xl font-bold tracking-tight text-zinc-50">
-          {project?.name ?? "工作区"}
+      <header className="shrink-0 px-8 pb-2 pt-8">
+        <h1 className="text-[28px] font-bold tracking-tight text-[#f5f5f7]">
+          {project?.name ?? "项目"}
         </h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          待你处理的事项在上方 · 点击状态标签即可更新
-        </p>
       </header>
 
-      <div className="flex-1 overflow-y-auto">
-        <section className="border-b border-zinc-800 bg-zinc-950/80 px-6 py-5">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-amber-400">
-            需要你介入
+      <div className="flex-1 overflow-y-auto px-8 pb-8">
+        <section className="mb-8">
+          <h2 className="mb-2 px-1 text-[13px] font-medium uppercase tracking-wide text-[#8e8e93]">
+            需要你处理
           </h2>
           {interventionTasks.length === 0 ? (
-            <p className="mt-4 rounded-xl border border-dashed border-zinc-800 bg-zinc-900 px-4 py-8 text-center text-sm text-zinc-500">
-              暂无待处理
-            </p>
+            <p className="px-1 py-6 text-[15px] text-[#8e8e93]">暂无待处理</p>
           ) : (
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {interventionTasks.map((task) => (
-                <TaskCard key={task.id} task={task} variant="intervention" />
+            <div className="ios-group">
+              {interventionTasks.map((task, i) => (
+                <div
+                  key={task.id}
+                  className={i < interventionTasks.length - 1 ? "border-b ios-separator" : ""}
+                >
+                  <TaskCard task={task} highlight />
+                </div>
               ))}
             </div>
           )}
         </section>
 
-        <section className="px-6 py-5">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            全部任务
-          </h2>
-          <div className="mt-4 space-y-8">
-            {groups.map((group) => {
-              const groupTasks = tasks
-                .filter((t) => t.groupId === group.id)
-                .filter((t) => !isInterventionTask(t));
+        {groups.map((group) => {
+          const groupTasks = tasks
+            .filter((t) => t.groupId === group.id)
+            .filter((t) => !isInterventionTask(t));
 
-              return (
-                <div key={group.id}>
-                  <div className="mb-3">
-                    <h3 className="text-sm font-semibold text-zinc-200">
-                      {group.name}
-                    </h3>
-                    <p className="mt-0.5 text-xs text-zinc-500">
-                      {group.leadAgentRole}
-                    </p>
+          if (groupTasks.length === 0) return null;
+
+          return (
+            <section key={group.id} className="mb-6">
+              <h2 className="mb-2 px-1 text-[13px] font-medium text-[#8e8e93]">
+                {group.name}
+              </h2>
+              <div className="ios-group">
+                {groupTasks.map((task, i) => (
+                  <div
+                    key={task.id}
+                    className={i < groupTasks.length - 1 ? "border-b ios-separator" : ""}
+                  >
+                    <TaskCard task={task} />
                   </div>
-                  {groupTasks.length === 0 ? (
-                    <p className="text-xs text-zinc-600">
-                      该组任务均在「需要你介入」区域
-                    </p>
-                  ) : (
-                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                      {groupTasks.map((task) => (
-                        <TaskCard key={task.id} task={task} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </div>
   );

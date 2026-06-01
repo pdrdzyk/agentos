@@ -12,10 +12,8 @@ export function GlobalView() {
 
   if (pendingProposal) {
     return (
-      <div className="flex h-full items-center justify-center overflow-y-auto p-6">
-        <div className="glass-panel w-full max-w-2xl rounded-2xl p-2">
-          <ConfirmSplitPanel />
-        </div>
+      <div className="h-full overflow-y-auto">
+        <ConfirmSplitPanel />
       </div>
     );
   }
@@ -26,8 +24,8 @@ export function GlobalView() {
 
   if (!currentProjectId) {
     return (
-      <div className="flex h-full items-center justify-center text-sm text-zinc-500">
-        在左侧选择一个项目
+      <div className="flex h-full items-center justify-center text-[15px] text-[#8e8e93]">
+        选择左侧项目
       </div>
     );
   }
